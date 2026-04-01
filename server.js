@@ -5,8 +5,10 @@ const http = require("http");
 //req --> send by user
 //res --> sebd by server
 const server = http.createServer((req, res) => {    
- res.end("hello world!!");
+ res.end("Hello World!!")
 });
 
-server.listen(3000);
-//check on browser after run server.js file =>localhost:3000
+server.listen(3000 ,()=> {
+console.log("check on you browser: http://localhost:3000");
+});
+//check on browser after run server.js file =>localhost:3000                                    
