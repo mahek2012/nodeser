@@ -16,7 +16,7 @@ app.use(function(req, res, next)    {
 //create a route
 //app.get('frontend path', callback function)
 app.get("/", function(req, res) {
-    res.send("Hello Mahek Savaliya!!");
+    res.send("Hello Rups Prajapati!!");
 });
 
 // app.listen(3000, (e) => {
@@ -42,7 +42,8 @@ app.get("/signup", (req, res) => {
 // error handling : always write after all routes
 app.use(function (req, res, next) {
     res.status(404).send("Not Found");
+    res.status(500).send("Something went wrong!!");
 });
 
-app.listen(3000);
- console.log("check on you browser: http://localhost:3000");
+app.listen(1234);
+ console.log("check on you browser: http://localhost:1234");
