@@ -1,17 +1,30 @@
-const userModel = require('../models/user.model');
+const userModel = require("../models/user.model");
 
-//third validation --> check all field are not empty
+// when create a service -- when you want to change into database
 
-module.exports.createUser = async ({username, email, password}) => {
-    if (!username || !email || !password) {
-        throw new Error('All fields are required');
-    }
-    //check email already exist or not
-    const user = await userModel.create({username, email, password});
-    return user;
+// thrid validation --> cheak all field are not blank
 
+module.exports.createUser = async ({ username, email, password,role }) => {
+  if (!username || !email || !password) {
+    throw new Error("All Filed Are Required");
+  }
 
+  const user = await userModel.create({ username, email, password, role });
 
+  return user;
 };
 
-//next create a controller for register
+// update data
+module.exports.updateUser = async ({ userId, username, email }) => {
+  const updatedUser = await userModel.findOneAndUpdate(
+    { _id: userId },
+    { username, email },
+    { new: true },
+  );
+
+  if (!updatedUser) {
+    throw new Error("user not found");
+  }
+
+  return updatedUser;
+};

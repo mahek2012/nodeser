@@ -1,19 +1,19 @@
-## baisc express folder structute
-
+## Basic Express Folder Structure
 ├── config/         🔧  Settings (DB connection, env vars, logger)
 ├── models/         🗃️  Database table shapes (Mongoose schemas)
-├── validations/    🛡️  "Is the data correct?" checks (Zod schemas)
 ├── middlewares/    🚦  Code that runs BEFORE your handler (auth, validation, rate-limit)
 ├── routes/         🗺️  URL → handler mapping (what URL calls what function)
 ├── controllers/    📬  Receives the HTTP request, sends the HTTP response
 ├── services/       🧠  The actual business logic (talks to the DB)
 └── utils/          🔨  Reusable helpers (ApiError, ApiResponse, catchAsync)
 
-## express api flow
+## Express API Flow
 Request → Route → (Middleware) → Controller → Service → Database
                                                          ↓
 Response ←────────────────────────────────── Controller ←─
 
+
+## Backend Data Flow 
 1. Request arrives at Express
         ↓
 2. app.js runs Helmet (security headers)
@@ -38,13 +38,7 @@ Response ←──────────────────────�
 10. Controller sends: 201 { success: true, data: { ... }, message: "Product created" }
 
 
-## install
- npm i express mongoose cookie-parser jsonwebtoken bcrypt express-validator dotenv cors
-
- ## APIS:
- Request → Route → (Middleware)  → Service→ Controller→ Database
-
- 
- 1.USER CREATION -- REGISTER
- USER LOGIN
- USER PROFILE
+## APi Created
+1. user register --> post --> username, password, email
+2. user login --> post --> email, password
+3. user profile --> get

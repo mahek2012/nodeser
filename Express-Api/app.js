@@ -1,69 +1,36 @@
-//setup env file
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 dotenv.config();
+const express = require("express");
+const cors = require("cors");
+const db = require("./config/db");
+const cookieParser = require("cookie-parser");
+// Route
+const userRouter = require("./routes/web/v1/user.route");
+const adminRouter = require("./routes/web/v1/admin.route")
 
-const express = require('express');
-const db = require('./config/db');
-const userRoute = require('./routes/web/user.route');
 const app = express();
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-db();
-//to excess env values in file:
-//backend (node + express) --> process.env.(env file variable name) --> process.env.PORT
+app.use(cookieParser());
+app.set(db());
 
-//frontend (react) --> import.meta.env.(env file variable name)
+// cors origin --> allow only that website that mention into origin group, ex. backend only res when localhost 3002 send reqest, other than give cors error
+// localhost 3002 --> req --> accept --> give response
+// localhost 3004 --> req --> cors error --> don't give response
+// in origin you mention frontend urls (deveopment, producation both)
+app.use(cors({ origin: "http://localhost:3002", credentials: true }));
+
 PORT = process.env.PORT;
 
-//home route (temp route ) --> in backend we dont create a home route but for testing /development --> remopve home route 
+// temp route --> in Backend we Don't create a Home Route. after Teasting / Developement Remove Home Route
 app.get("/", (req, res) => {
-    res.send('server homepage ');
+  res.status(401).json({ message: "Access Denined !!" });
 });
-app.use('/user', userRoute);
-app.listen(PORT, () => {        
-    console.log(`✅server is running on port ${PORT}`);
+app.use("/user", userRouter); // --> localhost:3005/user/register
+app.use("/admin", adminRouter); // --> url/admin/all/user
+
+
+app.listen(PORT, () => {
+  console.log(`✅ server is Running on PORT ${PORT}`);
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
