@@ -1,10 +1,9 @@
-module.exports.authAdmin = (req, res, next) =>{
-   const user = req.user;
+module.exports.authAdmin = async (req, res, next) => {
+    const user = req.user; // usermiddleware -- return req.use
 
-   // check user or user role
-   if(!user || user.role !== "admin"){
-     return res.status(403).json({message: "Access Denined !"})
-   }
+    if (user && user.role !== "admin") {
+        return res.status(401).json({ message: 'Access denied.' });
+    }
 
-   next();
+    next();
 }

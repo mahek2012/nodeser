@@ -1,7 +1,40 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function LoginPage() {
+  const [formData, setformData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [error, setError] = useState("");
+  const [validation, setValidation] = useState("");
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setformData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const submitForm = async () => {
+    let response = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/login`, formData);
+
+    try {
+      if (response.status === 200) {
+        let data = response.data;
+        localStorage.setItem("token", data.token);
+        navigate("/profile");
+      }
+    }
+    catch (error) {
+      console.log(error.response);
+      setError(error.response?.data?.message);
+      setValidation(error.response?.data?.message);
+      console.log(error.response?.data?.error)
+    }
+  };
+
+
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center bg-slate-50 overflow-hidden">
 
@@ -19,12 +52,32 @@ export default function LoginPage() {
           <p className="text-sm text-slate-500 mt-1">Sign in to your account</p>
         </div>
 
-        <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+        <form className="space-y-5" onSubmit={(e) => {
+          e.preventDefault();
+          submitForm();
+        }}
+        >
+          {error && <p className='text-red-400 bg-red-50 p-2 mb-1 rounded-xl'> {error}</p>}
+          {validation && (
+          <div>
+            {validation.map((val, index) => {
+              return (
+                <p key={index} className='text-red-400 bg-red-50 p-2 mb-1 rounded-xl'>{val.msg}</p>
+              )
+            })}
+            
+          </div>)}
+
           <div className="space-y-1">
             <input
               type="email"
               placeholder="Email"
-              className="w-full px-4 py-3 bg-white/60 border border-slate-200/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-200 focus:bg-white transition-all placeholder:text-slate-400 text-sm"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full px-4 py-3 bg-white/60 border border-slate-200/50 rounded-xl 
+              focus:outline-none focus:ring-2 focus:ring-slate-200 focus:bg-white transition-all
+               placeholder:text-slate-400 text-sm"
             />
           </div>
 
@@ -32,6 +85,9 @@ export default function LoginPage() {
             <input
               type="password"
               placeholder="Password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
               className="w-full px-4 py-3 bg-white/60 border border-slate-200/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-200 focus:bg-white transition-all placeholder:text-slate-400 text-sm"
             />
           </div>

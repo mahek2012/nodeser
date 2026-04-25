@@ -11,4 +11,4 @@ const server = http.createServer((req, res) => {
 server.listen(3000 ,()=> {
 console.log("check on you browser: http://localhost:3000");
 });
-//check on browser after run server.js file =>localhost:3000                                    
+//check on browser after run server.js file =>localhost:3000

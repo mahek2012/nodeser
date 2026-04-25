@@ -1,23 +1,14 @@
-const mongoose = require("mongoose");
-// const dbgr = require("debug")("development:server");
-// const config = require("config");
+const mongoose = require('mongoose');
 
-function connetToDB() {
-  mongoose
-    .connect(process.env.MONGO_URL)
+function conectToDb() {
+    mongoose.connect(process.env.MONGO_URI)
     .then(() => {
-      console.log("📊 Mongodb Conected");
+        console.log('📊 Connected to MongoDB');
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+        console.log(err);
+      
+    }); 
 }
+module.exports = conectToDb;
 
-// function connetToDB() {
-//   mongoose
-//     .connect(`${config.get("MongoDB_URL")}/ecomerce`)
-//     .then(() => {
-//       dbgr("Mongodb Conected");
-//     })
-//     .catch((err) => dbgr(err));
-// }
-
-module.exports = connetToDB;

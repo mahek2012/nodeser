@@ -1,28 +1,54 @@
-const userModel = require("../models/user.model");
-const adminService = require ("../services/admin.service");
+const adminService = require("../services/admin.service");
 
-module.exports.AllUser = async (req, res)=>{
-    try {
-        const users = await adminService.getAllUser();
-        
-        return res.status(200).json({message: "User Fetch Sucessfully", users})
-    } catch (error) {
-        return res.status(400).json({error: error.message})
-    }
-}
+//all user
+module.exports.AllUser = async (req, res) => {
+try{
+    const users = await adminService.allUser();
+  if(!users){
+    return res.status(404).json({message: "users Not found"});
+  }
+  return res.status(400).json({message: "All users Fetch Successfully", users});
 
-module.exports.deleteUser = async (req, res) =>{
-    try {
-        const user = await adminService.deleteUser(req.params.id);
-
-        if(!user){
-            return res.status(404).json({message: "User not Find"})
-        }
-
-        return res.status(200).json({message: "User Delete Successfully"})
-
-
-    } catch (error) {
+}catch(error){
     return res.status(400).json({message: error.message})
-    }
 }
+
+};
+
+//delete single user
+
+module.exports.DeleteUser =async (req ,res) =>{
+try{
+const id = req.params.id;
+const deleteUser = await adminService.deleteUser(id);
+
+if(!deleteUser){
+    return res.status(404).json({message: "user Not found!!!"});
+  }
+
+  return res.status(400).json({message: "user Deleted successfully", deleteUser});
+}
+  catch(error){
+    return res.status(400).json({message: error.message});
+  }
+
+};
+
+
+
+//update user role
+
+module.exports.UpdateUserRole = async (req, res) => {
+ try{
+    const {role} = req.body;
+    const userId = req.params.id;
+  if (req.user.role !=="admin"){
+    return res.status(401).json({message: "Access Denied!!!"});
+  } 
+const user = await adminService.updateRole({userId, role});
+return res.status(200).json({message: "Update role of user successfully", user});
+ }
+catch(error){
+    return res.status(400).json({message: error.message});
+}
+ };

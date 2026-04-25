@@ -1,3 +1,4 @@
+// ===========================================================================================================
 // const fs = require("node:fs");
 
 // fs = file system
@@ -102,8 +103,8 @@
 //   console.log("delete file");
 // });
 
-
+// ---------------------------------------------
 import chalk from 'chalk';
 
 console.log(chalk.bgWhite.blue('Hello world!'));
-console.log(chalk.bgMagentaBright.red('Index.js File'))
+console.log(chalk.bgMagentaBright.red('index.js file'));

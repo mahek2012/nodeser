@@ -1,17 +1,18 @@
-// show all user logic
+const userModel = require("../models/user.model");
 
-const userModel = require("../models/user.model")
+//get all user
 
-
-module.exports.getAllUser = async ()=>{
- const allUser = await userModel.find();
-
- return allUser;
+module.exports.allUser = async () =>{
+    return await userModel.find({role: "user"});
 }
+//delete single user
+module.exports.deleteUser = async (id) => {
+   return await userModel.findOneAndDelete({ _id: id });
 
+};
 
-module.exports.deleteUser = async (id) =>{
-    const user = await userModel.findOneAndDelete({_id: id})
+//update user role
 
-    return user;
-}
+module.exports.updateRole = async ({userId, role}) => {
+    return await userModel.findOneAndUpdate({ _id: userId }, { role }, { new: true });
+};
